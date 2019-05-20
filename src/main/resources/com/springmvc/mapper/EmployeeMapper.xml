@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.springmvc.mapper.EmployeeMapper">
+    <!-- 按ID查询员工信息： public Employee getEmpById(int id); -->
+	<select id="getEmpById" resultType="com.springmvc.bean.Employee">
+		select id,last_Name lastName,gender,email from employee where id=#{id}
+	</select>
+	<!--查询所有员工信息： public List<Employee> getAllEmps(); -->
+	<select id="getAllEmps" resultType="com.springmvc.bean.Employee">
+	    select id,last_Name lastName,gender,email from employee
+	</select>
+	<!-- //添加员工信息
+     public boolean addEmp(Employee emp);  -->
+     <select id="addEmp" parameterType="com.springmvc.bean.Employee">
+      insert into employee(last_name,gender,email) values(#{lastName},#{gender},#{email})
+     </select>
+     <!--     //删除员工信息
+     public boolean deleteEmp(int id);-->
+      <select id="deleteEmp" >
+       delete from employee where id=#{id}
+     </select>
+    <!--//修改员工信息
+     public boolean updateEmp(Employee emp); -->
+     <select id="updateEmp"  parameterType="com.springmvc.bean.Employee">
+       update employee set last_name=#{lastName},gender=#{gender},email=#{email} where id=#{id}
+     </select>
+</mapper>

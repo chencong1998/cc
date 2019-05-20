@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springmvc.mapper.CardetailMapper">
+    <resultMap id="BaseResultMap" type="com.springmvc.bean.Cardetail">
+        <id column="detailID" jdbcType="VARCHAR" property="detailid"/>
+        <result column="transID" jdbcType="INTEGER" property="transid"/>
+        <result column="gcount" jdbcType="DECIMAL" property="gcount"/>
+        <result column="sendCity" jdbcType="INTEGER" property="sendcity"/>
+        <result column="receCity" jdbcType="INTEGER" property="rececity"/>
+        <result column="startAddr" jdbcType="VARCHAR" property="startaddr"/>
+        <result column="endAddr" jdbcType="VARCHAR" property="endaddr"/>
+        <result column="sendCustID" jdbcType="INTEGER" property="sendcustid"/>
+        <result column="receCustID" jdbcType="INTEGER" property="rececustid"/>
+        <result column="recePerson" jdbcType="VARCHAR" property="receperson"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="goodsName" jdbcType="VARCHAR" property="goodsname"/>
+        <result column="unitName" jdbcType="VARCHAR" property="unitname"/>
+        <result column="insuranceFee" jdbcType="DECIMAL" property="insurancefee"/>
+        <result column="otherFee" jdbcType="DECIMAL" property="otherfee"/>
+        <result column="sendGoods" jdbcType="VARCHAR" property="sendgoods"/>
+        <result column="paidID" jdbcType="INTEGER" property="paidid"/>
+        <result column="orderID" jdbcType="VARCHAR" property="orderid"/>
+        <result column="paidStuats" jdbcType="VARCHAR" property="paidstuats"/>
+        <result column="sendFee" jdbcType="DECIMAL" property="sendfee"/>
+        <result column="faceFee" jdbcType="DECIMAL" property="facefee"/>
+        <result column="sendTime" jdbcType="TIMESTAMP" property="sendtime"/>
+        <result column="oprTime" jdbcType="TIMESTAMP" property="oprtime"/>
+        <result column="userID" jdbcType="INTEGER" property="userid"/>
+        <result column="demo" jdbcType="VARCHAR" property="demo"/>
+    </resultMap>
+    <resultMap id="WithOtherResultMap" type="com.springmvc.bean.Cardetail">
+        <id column="detailID" jdbcType="VARCHAR" property="detailid"/>
+        <result column="transID" jdbcType="INTEGER" property="transid"/>
+        <result column="gcount" jdbcType="DECIMAL" property="gcount"/>
+        <result column="sendCity" jdbcType="INTEGER" property="sendcity"/>
+        <result column="receCity" jdbcType="INTEGER" property="rececity"/>
+        <result column="startAddr" jdbcType="VARCHAR" property="startaddr"/>
+        <result column="endAddr" jdbcType="VARCHAR" property="endaddr"/>
+        <result column="sendCustID" jdbcType="INTEGER" property="sendcustid"/>
+        <result column="receCustID" jdbcType="INTEGER" property="rececustid"/>
+        <result column="recePerson" jdbcType="VARCHAR" property="receperson"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="goodsName" jdbcType="VARCHAR" property="goodsname"/>
+        <result column="unitName" jdbcType="VARCHAR" property="unitname"/>
+        <result column="insuranceFee" jdbcType="DECIMAL" property="insurancefee"/>
+        <result column="otherFee" jdbcType="DECIMAL" property="otherfee"/>
+        <result column="sendGoods" jdbcType="VARCHAR" property="sendgoods"/>
+        <result column="paidID" jdbcType="INTEGER" property="paidid"/>
+        <result column="orderID" jdbcType="VARCHAR" property="orderid"/>
+        <result column="paidStuats" jdbcType="VARCHAR" property="paidstuats"/>
+        <result column="sendFee" jdbcType="DECIMAL" property="sendfee"/>
+        <result column="faceFee" jdbcType="DECIMAL" property="facefee"/>
+        <result column="sendTime" jdbcType="TIMESTAMP" property="sendtime"/>
+        <result column="oprTime" jdbcType="TIMESTAMP" property="oprtime"/>
+        <result column="userID" jdbcType="INTEGER" property="userid"/>
+        <result column="demo" jdbcType="VARCHAR" property="demo"/>
+        <association property="car" javaType="com.springmvc.bean.Car">
+            <!--<id column="carID" property="carid"></id>-->
+            <result column="cardNo" property="cardno"></result>
+        </association>
+        <association property="customer" javaType="com.springmvc.bean.Customer">
+            <id column="sendCustID" property="customerid"></id>
+            <result column="sendcustname" property="customername"></result>
+        </association>
+        <association property="customer1" javaType="com.springmvc.bean.Customer">
+            <id column="receCustID" property="customerid"></id>
+            <result column="rececustname" property="customername"></result>
+        </association>
+        <association property="area" javaType="com.springmvc.bean.Area">
+            <id column="sendCity" property="areaid"></id>
+            <result column="sendcity1" property="areaname"></result>
+        </association>
+        <association property="area1" javaType="com.springmvc.bean.Area">
+            <id column="receCity" property="areaid"></id>
+            <result column="rececity1" property="areaname"></result>
+        </association>
+    </resultMap>
+    <resultMap id="WithOtherResultMap1" type="com.springmvc.bean.Cardetail">
+        <id column="detailID" jdbcType="VARCHAR" property="detailid"/>
+        <result column="transID" jdbcType="INTEGER" property="transid"/>
+        <result column="gcount" jdbcType="DECIMAL" property="gcount"/>
+        <result column="sendCity" jdbcType="INTEGER" property="sendcity"/>
+        <result column="receCity" jdbcType="INTEGER" property="rececity"/>
+        <result column="startAddr" jdbcType="VARCHAR" property="startaddr"/>
+        <result column="endAddr" jdbcType="VARCHAR" property="endaddr"/>
+        <result column="sendCustID" jdbcType="INTEGER" property="sendcustid"/>
+        <result column="receCustID" jdbcType="INTEGER" property="rececustid"/>
+        <result column="recePerson" jdbcType="VARCHAR" property="receperson"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="goodsName" jdbcType="VARCHAR" property="goodsname"/>
+        <result column="unitName" jdbcType="VARCHAR" property="unitname"/>
+        <result column="insuranceFee" jdbcType="DECIMAL" property="insurancefee"/>
+        <result column="otherFee" jdbcType="DECIMAL" property="otherfee"/>
+        <result column="sendGoods" jdbcType="VARCHAR" property="sendgoods"/>
+        <result column="paidID" jdbcType="INTEGER" property="paidid"/>
+        <result column="orderID" jdbcType="VARCHAR" property="orderid"/>
+        <result column="paidStuats" jdbcType="VARCHAR" property="paidstuats"/>
+        <result column="sendFee" jdbcType="DECIMAL" property="sendfee"/>
+        <result column="faceFee" jdbcType="DECIMAL" property="facefee"/>
+        <result column="sendTime" jdbcType="TIMESTAMP" property="sendtime"/>
+        <result column="oprTime" jdbcType="TIMESTAMP" property="oprtime"/>
+        <result column="userID" jdbcType="INTEGER" property="userid"/>
+        <result column="demo" jdbcType="VARCHAR" property="demo"/>
+        <association property="car" javaType="com.springmvc.bean.Car">
+            <!--<id column="carID" property="carid"></id>-->
+            <result column="cardNo" property="cardno"></result>
+        </association>
+        <!--<association property="customer" javaType="com.springmvc.bean.Customer">
+            <id column="sendCustID" property="customerid"></id>
+            <result column="sendcustname" property="customername"></result>
+        </association>-->
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    detailID, transID, gcount, sendCity, receCity, startAddr, endAddr, sendCustID, receCustID,
+    recePerson, phone, goodsName, unitName, insuranceFee, otherFee, sendGoods, paidID,
+    orderID, paidStuats, sendFee, faceFee, sendTime, oprTime, userID, demo
+  </sql>
+    <sql id="WithOther_Column_List">
+    detailID,oprTime,c.transID,c.sendCustID,c.receCustID,
+    goodsName,unitName,c.gcount,c.sendFee,insuranceFee,otherFee,
+    c.sendCity,c.receCity,orderID,cardNo,c2.customerName sendcustname,c3.customerName rececustname,
+    a1.areaName sendcity1,a2.areaName rececity1
+  </sql>
+    <sql id="WithOther_Column_List1">
+    detailID, c.transID, c.gcount, c.sendCity, c.receCity, startAddr, endAddr, sendCustID, receCustID,
+    recePerson, phone, goodsName, unitName, insuranceFee, otherFee, sendGoods, paidID,
+    orderID, paidStuats, c.sendFee, c.faceFee, c.sendTime, oprTime,cardNo,userID, c.demo,t.carID
+    </sql>
+    <!--List&lt;Cardetail&gt; selectByExampleWithother(int cid);-->
+    <select id="selectByExampleWithother" resultMap="WithOtherResultMap">
+        select
+        <include refid="WithOther_Column_List"/>
+        FROM cardetail c
+        LEFT JOIN transcar t on c.transID=t.transID
+        LEFT JOIN car c1 on t.carID=c1.carID
+        LEFT JOIN customer c2 on c2.customerID=c.sendCustID
+        LEFT JOIN customer c3 on c3.customerID=c.receCustID
+        LEFT JOIN area a1 on a1.areaID=c.sendCity
+        LEFT JOIN area a2 on a2.areaID=c.receCity
+        where c.sendCustID = #{customerID}
+    </select>
+    <select id="selectByExampleWithother1" resultMap="WithOtherResultMap">
+        select
+        <include refid="WithOther_Column_List"/>
+        FROM cardetail c
+        LEFT JOIN transcar t on c.transID=t.transID
+        LEFT JOIN car c1 on t.carID=c1.carID
+        LEFT JOIN customer c2 on c2.customerID=c.sendCustID
+        LEFT JOIN customer c3 on c3.customerID=c.receCustID
+        LEFT JOIN area a1 on a1.areaID=c.sendCity
+        LEFT JOIN area a2 on a2.areaID=c.receCity
+        <where>
+            1=1
+            <if test="i0 != null">
+                and detailID LIKE "%"#{i0}"%"
+            </if>
+            <if test="sta != null">
+                and orderID LIKE "%"#{sta}"%"
+            </if>
+            <if test="i2 != null">
+                and c.transID=#{i2}
+            </if>
+            <if test="i3 != null">
+                and sendCustID=#{i3}
+            </if>
+            <if test="i4 != null">
+                and c.sendCity=#{i4}
+            </if>
+            <if test="i5 != null">
+                and receCustID=#{i5}
+            </if>
+            <if test="i6 != null">
+                and c.receCity=#{i6}
+            </if>
+        </where>
+    </select>
+    <select id="selectByExample" parameterType="com.springmvc.bean.CardetailExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from cardetail
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cardetail
+        where detailID = #{detailid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from cardetail
+    where detailID = #{detailid,jdbcType=VARCHAR}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.springmvc.bean.CardetailExample">
+        delete from cardetail
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.springmvc.bean.Cardetail">
+    insert into cardetail (detailID, transID, gcount, 
+      sendCity, receCity, startAddr, 
+      endAddr, sendCustID, receCustID, 
+      recePerson, phone, goodsName, 
+      unitName, insuranceFee, otherFee, 
+      sendGoods, paidID, orderID, 
+      paidStuats, sendFee, faceFee, 
+      sendTime, oprTime, userID, 
+      demo)
+    values (#{detailid,jdbcType=VARCHAR}, #{transid,jdbcType=INTEGER}, #{gcount,jdbcType=DECIMAL}, 
+      #{sendcity,jdbcType=INTEGER}, #{rececity,jdbcType=INTEGER}, #{startaddr,jdbcType=VARCHAR}, 
+      #{endaddr,jdbcType=VARCHAR}, #{sendcustid,jdbcType=INTEGER}, #{rececustid,jdbcType=INTEGER}, 
+      #{receperson,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{goodsname,jdbcType=VARCHAR}, 
+      #{unitname,jdbcType=VARCHAR}, #{insurancefee,jdbcType=DECIMAL}, #{otherfee,jdbcType=DECIMAL}, 
+      #{sendgoods,jdbcType=VARCHAR}, #{paidid,jdbcType=INTEGER}, #{orderid,jdbcType=VARCHAR}, 
+      #{paidstuats,jdbcType=VARCHAR}, #{sendfee,jdbcType=DECIMAL}, #{facefee,jdbcType=DECIMAL}, 
+      #{sendtime,jdbcType=TIMESTAMP}, #{oprtime,jdbcType=TIMESTAMP}, #{userid,jdbcType=INTEGER}, 
+      #{demo,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.springmvc.bean.Cardetail">
+        insert into cardetail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">
+                detailID,
+            </if>
+            <if test="transid != null">
+                transID,
+            </if>
+            <if test="gcount != null">
+                gcount,
+            </if>
+            <if test="sendcity != null">
+                sendCity,
+            </if>
+            <if test="rececity != null">
+                receCity,
+            </if>
+            <if test="startaddr != null">
+                startAddr,
+            </if>
+            <if test="endaddr != null">
+                endAddr,
+            </if>
+            <if test="sendcustid != null">
+                sendCustID,
+            </if>
+            <if test="rececustid != null">
+                receCustID,
+            </if>
+            <if test="receperson != null">
+                recePerson,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="goodsname != null">
+                goodsName,
+            </if>
+            <if test="unitname != null">
+                unitName,
+            </if>
+            <if test="insurancefee != null">
+                insuranceFee,
+            </if>
+            <if test="otherfee != null">
+                otherFee,
+            </if>
+            <if test="sendgoods != null">
+                sendGoods,
+            </if>
+            <if test="paidid != null">
+                paidID,
+            </if>
+            <if test="orderid != null">
+                orderID,
+            </if>
+            <if test="paidstuats != null">
+                paidStuats,
+            </if>
+            <if test="sendfee != null">
+                sendFee,
+            </if>
+            <if test="facefee != null">
+                faceFee,
+            </if>
+            <if test="sendtime != null">
+                sendTime,
+            </if>
+            <if test="oprtime != null">
+                oprTime,
+            </if>
+            <if test="userid != null">
+                userID,
+            </if>
+            <if test="demo != null">
+                demo,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">
+                #{detailid,jdbcType=VARCHAR},
+            </if>
+            <if test="transid != null">
+                #{transid,jdbcType=INTEGER},
+            </if>
+            <if test="gcount != null">
+                #{gcount,jdbcType=DECIMAL},
+            </if>
+            <if test="sendcity != null">
+                #{sendcity,jdbcType=INTEGER},
+            </if>
+            <if test="rececity != null">
+                #{rececity,jdbcType=INTEGER},
+            </if>
+            <if test="startaddr != null">
+                #{startaddr,jdbcType=VARCHAR},
+            </if>
+            <if test="endaddr != null">
+                #{endaddr,jdbcType=VARCHAR},
+            </if>
+            <if test="sendcustid != null">
+                #{sendcustid,jdbcType=INTEGER},
+            </if>
+            <if test="rececustid != null">
+                #{rececustid,jdbcType=INTEGER},
+            </if>
+            <if test="receperson != null">
+                #{receperson,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsname != null">
+                #{goodsname,jdbcType=VARCHAR},
+            </if>
+            <if test="unitname != null">
+                #{unitname,jdbcType=VARCHAR},
+            </if>
+            <if test="insurancefee != null">
+                #{insurancefee,jdbcType=DECIMAL},
+            </if>
+            <if test="otherfee != null">
+                #{otherfee,jdbcType=DECIMAL},
+            </if>
+            <if test="sendgoods != null">
+                #{sendgoods,jdbcType=VARCHAR},
+            </if>
+            <if test="paidid != null">
+                #{paidid,jdbcType=INTEGER},
+            </if>
+            <if test="orderid != null">
+                #{orderid,jdbcType=VARCHAR},
+            </if>
+            <if test="paidstuats != null">
+                #{paidstuats,jdbcType=VARCHAR},
+            </if>
+            <if test="sendfee != null">
+                #{sendfee,jdbcType=DECIMAL},
+            </if>
+            <if test="facefee != null">
+                #{facefee,jdbcType=DECIMAL},
+            </if>
+            <if test="sendtime != null">
+                #{sendtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="oprtime != null">
+                #{oprtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userid != null">
+                #{userid,jdbcType=INTEGER},
+            </if>
+            <if test="demo != null">
+                #{demo,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.springmvc.bean.CardetailExample" resultType="java.lang.Long">
+        select count(*) from cardetail
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update cardetail
+        <set>
+            <if test="record.detailid != null">
+                detailID = #{record.detailid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.transid != null">
+                transID = #{record.transid,jdbcType=INTEGER},
+            </if>
+            <if test="record.gcount != null">
+                gcount = #{record.gcount,jdbcType=DECIMAL},
+            </if>
+            <if test="record.sendcity != null">
+                sendCity = #{record.sendcity,jdbcType=INTEGER},
+            </if>
+            <if test="record.rececity != null">
+                receCity = #{record.rececity,jdbcType=INTEGER},
+            </if>
+            <if test="record.startaddr != null">
+                startAddr = #{record.startaddr,jdbcType=VARCHAR},
+            </if>
+            <if test="record.endaddr != null">
+                endAddr = #{record.endaddr,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sendcustid != null">
+                sendCustID = #{record.sendcustid,jdbcType=INTEGER},
+            </if>
+            <if test="record.rececustid != null">
+                receCustID = #{record.rececustid,jdbcType=INTEGER},
+            </if>
+            <if test="record.receperson != null">
+                recePerson = #{record.receperson,jdbcType=VARCHAR},
+            </if>
+            <if test="record.phone != null">
+                phone = #{record.phone,jdbcType=VARCHAR},
+            </if>
+            <if test="record.goodsname != null">
+                goodsName = #{record.goodsname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.unitname != null">
+                unitName = #{record.unitname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.insurancefee != null">
+                insuranceFee = #{record.insurancefee,jdbcType=DECIMAL},
+            </if>
+            <if test="record.otherfee != null">
+                otherFee = #{record.otherfee,jdbcType=DECIMAL},
+            </if>
+            <if test="record.sendgoods != null">
+                sendGoods = #{record.sendgoods,jdbcType=VARCHAR},
+            </if>
+            <if test="record.paidid != null">
+                paidID = #{record.paidid,jdbcType=INTEGER},
+            </if>
+            <if test="record.orderid != null">
+                orderID = #{record.orderid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.paidstuats != null">
+                paidStuats = #{record.paidstuats,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sendfee != null">
+                sendFee = #{record.sendfee,jdbcType=DECIMAL},
+            </if>
+            <if test="record.facefee != null">
+                faceFee = #{record.facefee,jdbcType=DECIMAL},
+            </if>
+            <if test="record.sendtime != null">
+                sendTime = #{record.sendtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.oprtime != null">
+                oprTime = #{record.oprtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.userid != null">
+                userID = #{record.userid,jdbcType=INTEGER},
+            </if>
+            <if test="record.demo != null">
+                demo = #{record.demo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update cardetail
+        set detailID = #{record.detailid,jdbcType=VARCHAR},
+        transID = #{record.transid,jdbcType=INTEGER},
+        gcount = #{record.gcount,jdbcType=DECIMAL},
+        sendCity = #{record.sendcity,jdbcType=INTEGER},
+        receCity = #{record.rececity,jdbcType=INTEGER},
+        startAddr = #{record.startaddr,jdbcType=VARCHAR},
+        endAddr = #{record.endaddr,jdbcType=VARCHAR},
+        sendCustID = #{record.sendcustid,jdbcType=INTEGER},
+        receCustID = #{record.rececustid,jdbcType=INTEGER},
+        recePerson = #{record.receperson,jdbcType=VARCHAR},
+        phone = #{record.phone,jdbcType=VARCHAR},
+        goodsName = #{record.goodsname,jdbcType=VARCHAR},
+        unitName = #{record.unitname,jdbcType=VARCHAR},
+        insuranceFee = #{record.insurancefee,jdbcType=DECIMAL},
+        otherFee = #{record.otherfee,jdbcType=DECIMAL},
+        sendGoods = #{record.sendgoods,jdbcType=VARCHAR},
+        paidID = #{record.paidid,jdbcType=INTEGER},
+        orderID = #{record.orderid,jdbcType=VARCHAR},
+        paidStuats = #{record.paidstuats,jdbcType=VARCHAR},
+        sendFee = #{record.sendfee,jdbcType=DECIMAL},
+        faceFee = #{record.facefee,jdbcType=DECIMAL},
+        sendTime = #{record.sendtime,jdbcType=TIMESTAMP},
+        oprTime = #{record.oprtime,jdbcType=TIMESTAMP},
+        userID = #{record.userid,jdbcType=INTEGER},
+        demo = #{record.demo,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.springmvc.bean.Cardetail">
+        update cardetail
+        <set>
+            <if test="transid != null">
+                transID = #{transid,jdbcType=INTEGER},
+            </if>
+            <if test="gcount != null">
+                gcount = #{gcount,jdbcType=DECIMAL},
+            </if>
+            <if test="sendcity != null">
+                sendCity = #{sendcity,jdbcType=INTEGER},
+            </if>
+            <if test="rececity != null">
+                receCity = #{rececity,jdbcType=INTEGER},
+            </if>
+            <if test="startaddr != null">
+                startAddr = #{startaddr,jdbcType=VARCHAR},
+            </if>
+            <if test="endaddr != null">
+                endAddr = #{endaddr,jdbcType=VARCHAR},
+            </if>
+            <if test="sendcustid != null">
+                sendCustID = #{sendcustid,jdbcType=INTEGER},
+            </if>
+            <if test="rececustid != null">
+                receCustID = #{rececustid,jdbcType=INTEGER},
+            </if>
+            <if test="receperson != null">
+                recePerson = #{receperson,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsname != null">
+                goodsName = #{goodsname,jdbcType=VARCHAR},
+            </if>
+            <if test="unitname != null">
+                unitName = #{unitname,jdbcType=VARCHAR},
+            </if>
+            <if test="insurancefee != null">
+                insuranceFee = #{insurancefee,jdbcType=DECIMAL},
+            </if>
+            <if test="otherfee != null">
+                otherFee = #{otherfee,jdbcType=DECIMAL},
+            </if>
+            <if test="sendgoods != null">
+                sendGoods = #{sendgoods,jdbcType=VARCHAR},
+            </if>
+            <if test="paidid != null">
+                paidID = #{paidid,jdbcType=INTEGER},
+            </if>
+            <if test="orderid != null">
+                orderID = #{orderid,jdbcType=VARCHAR},
+            </if>
+            <if test="paidstuats != null">
+                paidStuats = #{paidstuats,jdbcType=VARCHAR},
+            </if>
+            <if test="sendfee != null">
+                sendFee = #{sendfee,jdbcType=DECIMAL},
+            </if>
+            <if test="facefee != null">
+                faceFee = #{facefee,jdbcType=DECIMAL},
+            </if>
+            <if test="sendtime != null">
+                sendTime = #{sendtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="oprtime != null">
+                oprTime = #{oprtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userid != null">
+                userID = #{userid,jdbcType=INTEGER},
+            </if>
+            <if test="demo != null">
+                demo = #{demo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where detailID = #{detailid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.springmvc.bean.Cardetail">
+    update cardetail
+    set transID = #{transid,jdbcType=INTEGER},
+      gcount = #{gcount,jdbcType=DECIMAL},
+      sendCity = #{sendcity,jdbcType=INTEGER},
+      receCity = #{rececity,jdbcType=INTEGER},
+      startAddr = #{startaddr,jdbcType=VARCHAR},
+      endAddr = #{endaddr,jdbcType=VARCHAR},
+      sendCustID = #{sendcustid,jdbcType=INTEGER},
+      receCustID = #{rececustid,jdbcType=INTEGER},
+      recePerson = #{receperson,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      goodsName = #{goodsname,jdbcType=VARCHAR},
+      unitName = #{unitname,jdbcType=VARCHAR},
+      insuranceFee = #{insurancefee,jdbcType=DECIMAL},
+      otherFee = #{otherfee,jdbcType=DECIMAL},
+      sendGoods = #{sendgoods,jdbcType=VARCHAR},
+      paidID = #{paidid,jdbcType=INTEGER},
+      orderID = #{orderid,jdbcType=VARCHAR},
+      paidStuats = #{paidstuats,jdbcType=VARCHAR},
+      sendFee = #{sendfee,jdbcType=DECIMAL},
+      faceFee = #{facefee,jdbcType=DECIMAL},
+      sendTime = #{sendtime,jdbcType=TIMESTAMP},
+      oprTime = #{oprtime,jdbcType=TIMESTAMP},
+      userID = #{userid,jdbcType=INTEGER},
+      demo = #{demo,jdbcType=VARCHAR}
+    where detailID = #{detailid,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

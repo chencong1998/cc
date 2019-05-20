@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+    <!-- 配置扫描的包 -->
+
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+    <context:component-scan base-package="com" annotation-config="true"/>
+    <mvc:annotation-driven conversion-service="conversionService"/>
+
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="com.springmvc.utils.MyDateConverter"></bean>
+            </set>
+        </property>
+    </bean>
+
+
+    <!-- 在实际开发中一般都要配置这项 -->
+
+    <!-- 在访问静态资源的时候，要配置该项-->
+    <mvc:default-servlet-handler/>
+    <!-- 拦截器 -->
+
+    <!--<mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/*"/>
+            <mvc:exclude-mapping path="/login"/>
+            <mvc:exclude-mapping path="/start"/>
+            <mvc:exclude-mapping path="/updateUserPwd"/>
+            <mvc:exclude-mapping path="/initAddUser"/>
+            <mvc:exclude-mapping path="/showUsers"/>
+            <mvc:exclude-mapping path="/initAddCustomer"/>
+            <mvc:exclude-mapping path="/showCustomers"/>
+            <mvc:exclude-mapping path="/initAddCar"/>
+            <mvc:exclude-mapping path="/showCars"/>
+            <mvc:exclude-mapping path="/showTransCars"/>
+            <mvc:exclude-mapping path="/initQueryCustomer"/>
+            <mvc:exclude-mapping path="/initQueryCarDetail"/>
+            <mvc:exclude-mapping path="/initQueryBalanceByCustomerIdAndUser"/>
+            <mvc:exclude-mapping path="/initBalanceByCustomerId"/>
+            <mvc:exclude-mapping path="/showAreas"/>
+            <mvc:exclude-mapping path="/showSendTypes"/>
+            <mvc:exclude-mapping path="/showCustomerTypes"/>
+            <mvc:exclude-mapping path="/showPaidtypes"/>
+            <mvc:exclude-mapping path="/showOrderstatuss"/>
+
+            <mvc:exclude-mapping path="/initUpdateUser"/>
+            <mvc:exclude-mapping path="/showCustomer"/>
+            <mvc:exclude-mapping path="/carRoads"/>
+            <mvc:exclude-mapping path="/initUpdateCar"/>
+
+            <mvc:exclude-mapping path="/initAddTransCar"/>
+            <mvc:exclude-mapping path="/initUpdateTransCar"/>
+            <mvc:exclude-mapping path="/initAddCarDetail"/>
+            <mvc:exclude-mapping path="/initUpdateCarDetail"/>
+
+            <mvc:exclude-mapping path="initQueryCarDetail"/>
+
+            <mvc:exclude-mapping path="/queryBalanceByCustomerIdAndTime"/>
+            <mvc:exclude-mapping path="/QueryBalanceByCustomerIdAndUser"/>
+            <mvc:exclude-mapping path="/initUpdateArea"/>
+            <mvc:exclude-mapping path="/initUpdateSendType"/>
+
+            <mvc:exclude-mapping path="/initUpdateCustomerType"/>
+
+            <mvc:exclude-mapping path="/initUpdatePaidtype"/>
+            <mvc:exclude-mapping path="/initUpdateOrderstatus"/>
+            <mvc:exclude-mapping path="/exit"/>
+            <bean class="com.springmvc.utils.MyInterceptor"></bean>
+        </mvc:interceptor>
+
+
+    </mvc:interceptors>-->
+
+</beans>

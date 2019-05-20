@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springmvc.mapper.BalanceMapper">
+  <resultMap id="BaseResultMap" type="com.springmvc.bean.Balance">
+    <id column="balanceID" jdbcType="INTEGER" property="balanceid" />
+    <result column="customerID" jdbcType="INTEGER" property="customerid" />
+    <result column="faceFee" jdbcType="DECIMAL" property="facefee" />
+    <result column="paidType" jdbcType="VARCHAR" property="paidtype" />
+    <result column="paidTime" jdbcType="TIMESTAMP" property="paidtime" />
+    <result column="oprTime" jdbcType="TIMESTAMP" property="oprtime" />
+    <result column="userID" jdbcType="INTEGER" property="userid" />
+    <result column="isvalID" jdbcType="VARCHAR" property="isvalid" />
+    <result column="demo" jdbcType="VARCHAR" property="demo" />
+  </resultMap>
+  <resultMap id="WithOtherResultMap1" type="com.springmvc.bean.Balance">
+    <id column="balanceID" jdbcType="INTEGER" property="balanceid" />
+    <result column="customerID" jdbcType="INTEGER" property="customerid" />
+    <result column="faceFee" jdbcType="DECIMAL" property="facefee" />
+    <result column="paidType" jdbcType="VARCHAR" property="paidtype" />
+    <result column="paidTime" jdbcType="TIMESTAMP" property="paidtime" />
+    <result column="oprTime" jdbcType="TIMESTAMP" property="oprtime" />
+    <result column="userID" jdbcType="INTEGER" property="userid" />
+    <result column="isvalID" jdbcType="VARCHAR" property="isvalid" />
+    <result column="demo" jdbcType="VARCHAR" property="demo" />
+    <association property="customer" javaType="com.springmvc.bean.Customer">
+      <id column="customerID" property="customerid"></id>
+      <result column="customerName" property="customername"></result>
+    </association>
+    <association property="users" javaType="com.springmvc.bean.Users">
+      <id column="id" property="id"></id>
+      <result column="userName" property="username"></result>
+    </association>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    balanceID, customerID, faceFee, paidType, paidTime, oprTime, userID, isvalID, demo
+  </sql>
+  <sql id="WithOther_Column_List1">
+    balanceID,balance.customerID,faceFee,paidType,paidTime,balance.userID,balance.demo,isvalID,customerName,userName
+  </sql>
+  <!--List<Balance> selectByExampleWithOther(BalanceExample example);
+  Balance selectByPrimaryKeyWithOther(Integer balanceid);-->
+  <select id="selectByExampleWithOther1" resultMap="WithOtherResultMap1" >
+    select
+    <include refid="WithOther_Column_List1" />
+    FROM
+    balance
+    LEFT JOIN customer on customer.customerID=balance.customerID
+    LEFT JOIN users on balance.userID=users.id
+    where balance.customerID = #{customerID}
+  </select>
+  <select id="selectByPrimaryKeyWithOther1" resultMap="WithOtherResultMap1">
+    select
+    <include refid="WithOther_Column_List1" />
+    FROM
+    balance
+    LEFT JOIN customer on customer.customerID=balance.customerID
+    LEFT JOIN users on balance.userID=users.id
+    where balanceID = #{balanceid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByExample" parameterType="com.springmvc.bean.BalanceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from balance
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from balance
+    where balanceID = #{balanceid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from balance
+    where balanceID = #{balanceid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.springmvc.bean.BalanceExample">
+    delete from balance
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.springmvc.bean.Balance">
+    insert into balance (balanceID, customerID, faceFee, 
+      paidType, paidTime, oprTime, 
+      userID, isvalID, demo
+      )
+    values (#{balanceid,jdbcType=INTEGER}, #{customerid,jdbcType=INTEGER}, #{facefee,jdbcType=DECIMAL}, 
+      #{paidtype,jdbcType=VARCHAR}, #{paidtime,jdbcType=TIMESTAMP}, #{oprtime,jdbcType=TIMESTAMP}, 
+      #{userid,jdbcType=INTEGER}, #{isvalid,jdbcType=VARCHAR}, #{demo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.springmvc.bean.Balance">
+    insert into balance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="balanceid != null">
+        balanceID,
+      </if>
+      <if test="customerid != null">
+        customerID,
+      </if>
+      <if test="facefee != null">
+        faceFee,
+      </if>
+      <if test="paidtype != null">
+        paidType,
+      </if>
+      <if test="paidtime != null">
+        paidTime,
+      </if>
+      <if test="oprtime != null">
+        oprTime,
+      </if>
+      <if test="userid != null">
+        userID,
+      </if>
+      <if test="isvalid != null">
+        isvalID,
+      </if>
+      <if test="demo != null">
+        demo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="balanceid != null">
+        #{balanceid,jdbcType=INTEGER},
+      </if>
+      <if test="customerid != null">
+        #{customerid,jdbcType=INTEGER},
+      </if>
+      <if test="facefee != null">
+        #{facefee,jdbcType=DECIMAL},
+      </if>
+      <if test="paidtype != null">
+        #{paidtype,jdbcType=VARCHAR},
+      </if>
+      <if test="paidtime != null">
+        #{paidtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oprtime != null">
+        #{oprtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="isvalid != null">
+        #{isvalid,jdbcType=VARCHAR},
+      </if>
+      <if test="demo != null">
+        #{demo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.springmvc.bean.BalanceExample" resultType="java.lang.Long">
+    select count(*) from balance
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update balance
+    <set>
+      <if test="record.balanceid != null">
+        balanceID = #{record.balanceid,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerid != null">
+        customerID = #{record.customerid,jdbcType=INTEGER},
+      </if>
+      <if test="record.facefee != null">
+        faceFee = #{record.facefee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.paidtype != null">
+        paidType = #{record.paidtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paidtime != null">
+        paidTime = #{record.paidtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.oprtime != null">
+        oprTime = #{record.oprtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userid != null">
+        userID = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.isvalid != null">
+        isvalID = #{record.isvalid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.demo != null">
+        demo = #{record.demo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update balance
+    set balanceID = #{record.balanceid,jdbcType=INTEGER},
+      customerID = #{record.customerid,jdbcType=INTEGER},
+      faceFee = #{record.facefee,jdbcType=DECIMAL},
+      paidType = #{record.paidtype,jdbcType=VARCHAR},
+      paidTime = #{record.paidtime,jdbcType=TIMESTAMP},
+      oprTime = #{record.oprtime,jdbcType=TIMESTAMP},
+      userID = #{record.userid,jdbcType=INTEGER},
+      isvalID = #{record.isvalid,jdbcType=VARCHAR},
+      demo = #{record.demo,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.springmvc.bean.Balance">
+    update balance
+    <set>
+      <if test="customerid != null">
+        customerID = #{customerid,jdbcType=INTEGER},
+      </if>
+      <if test="facefee != null">
+        faceFee = #{facefee,jdbcType=DECIMAL},
+      </if>
+      <if test="paidtype != null">
+        paidType = #{paidtype,jdbcType=VARCHAR},
+      </if>
+      <if test="paidtime != null">
+        paidTime = #{paidtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oprtime != null">
+        oprTime = #{oprtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null">
+        userID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="isvalid != null">
+        isvalID = #{isvalid,jdbcType=VARCHAR},
+      </if>
+      <if test="demo != null">
+        demo = #{demo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where balanceID = #{balanceid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.springmvc.bean.Balance">
+    update balance
+    set customerID = #{customerid,jdbcType=INTEGER},
+      faceFee = #{facefee,jdbcType=DECIMAL},
+      paidType = #{paidtype,jdbcType=VARCHAR},
+      paidTime = #{paidtime,jdbcType=TIMESTAMP},
+      oprTime = #{oprtime,jdbcType=TIMESTAMP},
+      userID = #{userid,jdbcType=INTEGER},
+      isvalID = #{isvalid,jdbcType=VARCHAR},
+      demo = #{demo,jdbcType=VARCHAR}
+    where balanceID = #{balanceid,jdbcType=INTEGER}
+  </update>
+</mapper>

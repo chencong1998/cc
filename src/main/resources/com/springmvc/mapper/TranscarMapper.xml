@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springmvc.mapper.TranscarMapper">
+    <resultMap id="BaseResultMap" type="com.springmvc.bean.Transcar">
+        <id column="transID" jdbcType="INTEGER" property="transid"/>
+        <result column="carID" jdbcType="INTEGER" property="carid"/>
+        <result column="gcount" jdbcType="DECIMAL" property="gcount"/>
+        <result column="sendCity" jdbcType="INTEGER" property="sendcity"/>
+        <result column="receCity" jdbcType="INTEGER" property="rececity"/>
+        <result column="driver" jdbcType="VARCHAR" property="driver"/>
+        <result column="driverTel" jdbcType="VARCHAR" property="drivertel"/>
+        <result column="master" jdbcType="VARCHAR" property="master"/>
+        <result column="masterTel" jdbcType="VARCHAR" property="mastertel"/>
+        <result column="sendTypeID" jdbcType="INTEGER" property="sendtypeid"/>
+        <result column="sendTime" jdbcType="TIMESTAMP" property="sendtime"/>
+        <result column="sendFee" jdbcType="DECIMAL" property="sendfee"/>
+        <result column="carFee" jdbcType="DECIMAL" property="carfee"/>
+        <result column="carStatus" jdbcType="VARCHAR" property="carstatus"/>
+        <result column="demo" jdbcType="VARCHAR" property="demo"/>
+    </resultMap>
+    <resultMap id="WithOtherResultMap" type="com.springmvc.bean.Transcar">
+        <id column="transID" jdbcType="INTEGER" property="transid"/>
+        <result column="carID" jdbcType="INTEGER" property="carid"/>
+        <result column="gcount" jdbcType="DECIMAL" property="gcount"/>
+        <result column="sendCity" jdbcType="INTEGER" property="sendcity"/>
+        <result column="receCity" jdbcType="INTEGER" property="rececity"/>
+        <result column="driver" jdbcType="VARCHAR" property="driver"/>
+        <result column="driverTel" jdbcType="VARCHAR" property="drivertel"/>
+        <result column="master" jdbcType="VARCHAR" property="master"/>
+        <result column="masterTel" jdbcType="VARCHAR" property="mastertel"/>
+        <result column="sendTypeID" jdbcType="INTEGER" property="sendtypeid"/>
+        <result column="sendTime" jdbcType="TIMESTAMP" property="sendtime"/>
+        <result column="sendFee" jdbcType="DECIMAL" property="sendfee"/>
+        <result column="carFee" jdbcType="DECIMAL" property="carfee"/>
+        <result column="carStatus" jdbcType="VARCHAR" property="carstatus"/>
+        <result column="demo" jdbcType="VARCHAR" property="demo"/>
+        <association property="car" javaType="com.springmvc.bean.Car">
+            <id column="carID" property="carid"></id>
+            <result column="cardNo" property="cardno"></result>
+        </association>
+        <association property="area1" javaType="com.springmvc.bean.Area">
+            <id column="sendCity" property="areaid"></id>
+            <result column="st" property="areaname"></result>
+        </association>
+        <association property="area2" javaType="com.springmvc.bean.Area">
+            <id column="receCity" property="areaid"></id>
+            <result column="rt" property="areaname"></result>
+        </association>
+        <association property="sendtype" javaType="com.springmvc.bean.Sendtype">
+            <id column="sendTypeID" property="sendtypeid"></id>
+            <result column="sendTypeName" property="sendtypename"></result>
+        </association>
+        <association property="carroad" javaType="com.springmvc.bean.Carroad">
+            <id column="transID" property="roadid"></id>
+            <result column="startTime" property="starttime"></result>
+            <result column="endTime" property="endtime"></result>
+        </association>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    transID, carID, gcount, sendCity, receCity, driver, driverTel, master, masterTel, 
+    sendTypeID, sendTime, sendFee, carFee, carStatus, demo
+  </sql>
+    <sql id="WithOther_Column_List">
+    transID, t.carID, gcount, sendCity, receCity, driver, driverTel, master, masterTel,
+    t.sendTypeID, sendTime, sendFee, carFee, carStatus,t.demo,cardNo,a1.areaName st,a2.areaName rt,sendTypeName
+  </sql>
+    <sql id="WithOther_Column_List1">
+       t.transID, t.carID, gcount, sendCity, receCity, driver, driverTel, master, masterTel,
+sendTypeID, sendTime, sendFee, carFee, carStatus, t.demo,cardNo,startTime,endTime,a1.areaName st,a2.areaName rt
+    </sql>
+    <!--Transcar selectByPrimaryKeyWithother(Integer transid);-->
+    <select id="selectByExampleWithother" resultMap="WithOtherResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="WithOther_Column_List"/>
+        from transcar t
+        LEFT JOIN car c on c.carID=t.carID
+        LEFT JOIN area a1 on a1.areaID=t.sendCity
+        LEFT JOIN area a2 on a2.areaID=t.receCity
+        LEFT JOIN sendtype s on s.sendTypeID=t.sendTypeID
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKeyWithother" resultMap="WithOtherResultMap">
+        select
+        <include refid="WithOther_Column_List1"/>
+        from transcar t
+        left join carroad c on c.roadID=t.transID
+        left join area a1 on a1.areaID=t.sendCity
+        left join area a2 on a2.areaID=t.receCity
+        left join car c1 on c1.carID=t.carID
+        where t.transID=#{tid}
+    </select>
+    <select id="selectByExample" parameterType="com.springmvc.bean.TranscarExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from transcar
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from transcar
+        where transID = #{transid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from transcar
+    where transID = #{transid,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.springmvc.bean.TranscarExample">
+        delete from transcar
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.springmvc.bean.Transcar">
+    insert into transcar (transID, carID, gcount, 
+      sendCity, receCity, driver, 
+      driverTel, master, masterTel, 
+      sendTypeID, sendTime, sendFee, 
+      carFee, carStatus, demo
+      )
+    values (#{transid,jdbcType=INTEGER}, #{carid,jdbcType=INTEGER}, #{gcount,jdbcType=DECIMAL}, 
+      #{sendcity,jdbcType=INTEGER}, #{rececity,jdbcType=INTEGER}, #{driver,jdbcType=VARCHAR}, 
+      #{drivertel,jdbcType=VARCHAR}, #{master,jdbcType=VARCHAR}, #{mastertel,jdbcType=VARCHAR}, 
+      #{sendtypeid,jdbcType=INTEGER}, #{sendtime,jdbcType=TIMESTAMP}, #{sendfee,jdbcType=DECIMAL}, 
+      #{carfee,jdbcType=DECIMAL}, #{carstatus,jdbcType=VARCHAR}, #{demo,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.springmvc.bean.Transcar">
+        insert into transcar
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="transid != null">
+                transID,
+            </if>
+            <if test="carid != null">
+                carID,
+            </if>
+            <if test="gcount != null">
+                gcount,
+            </if>
+            <if test="sendcity != null">
+                sendCity,
+            </if>
+            <if test="rececity != null">
+                receCity,
+            </if>
+            <if test="driver != null">
+                driver,
+            </if>
+            <if test="drivertel != null">
+                driverTel,
+            </if>
+            <if test="master != null">
+                master,
+            </if>
+            <if test="mastertel != null">
+                masterTel,
+            </if>
+            <if test="sendtypeid != null">
+                sendTypeID,
+            </if>
+            <if test="sendtime != null">
+                sendTime,
+            </if>
+            <if test="sendfee != null">
+                sendFee,
+            </if>
+            <if test="carfee != null">
+                carFee,
+            </if>
+            <if test="carstatus != null">
+                carStatus,
+            </if>
+            <if test="demo != null">
+                demo,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="transid != null">
+                #{transid,jdbcType=INTEGER},
+            </if>
+            <if test="carid != null">
+                #{carid,jdbcType=INTEGER},
+            </if>
+            <if test="gcount != null">
+                #{gcount,jdbcType=DECIMAL},
+            </if>
+            <if test="sendcity != null">
+                #{sendcity,jdbcType=INTEGER},
+            </if>
+            <if test="rececity != null">
+                #{rececity,jdbcType=INTEGER},
+            </if>
+            <if test="driver != null">
+                #{driver,jdbcType=VARCHAR},
+            </if>
+            <if test="drivertel != null">
+                #{drivertel,jdbcType=VARCHAR},
+            </if>
+            <if test="master != null">
+                #{master,jdbcType=VARCHAR},
+            </if>
+            <if test="mastertel != null">
+                #{mastertel,jdbcType=VARCHAR},
+            </if>
+            <if test="sendtypeid != null">
+                #{sendtypeid,jdbcType=INTEGER},
+            </if>
+            <if test="sendtime != null">
+                #{sendtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sendfee != null">
+                #{sendfee,jdbcType=DECIMAL},
+            </if>
+            <if test="carfee != null">
+                #{carfee,jdbcType=DECIMAL},
+            </if>
+            <if test="carstatus != null">
+                #{carstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="demo != null">
+                #{demo,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.springmvc.bean.TranscarExample" resultType="java.lang.Long">
+        select count(*) from transcar
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update transcar
+        <set>
+            <if test="record.transid != null">
+                transID = #{record.transid,jdbcType=INTEGER},
+            </if>
+            <if test="record.carid != null">
+                carID = #{record.carid,jdbcType=INTEGER},
+            </if>
+            <if test="record.gcount != null">
+                gcount = #{record.gcount,jdbcType=DECIMAL},
+            </if>
+            <if test="record.sendcity != null">
+                sendCity = #{record.sendcity,jdbcType=INTEGER},
+            </if>
+            <if test="record.rececity != null">
+                receCity = #{record.rececity,jdbcType=INTEGER},
+            </if>
+            <if test="record.driver != null">
+                driver = #{record.driver,jdbcType=VARCHAR},
+            </if>
+            <if test="record.drivertel != null">
+                driverTel = #{record.drivertel,jdbcType=VARCHAR},
+            </if>
+            <if test="record.master != null">
+                master = #{record.master,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mastertel != null">
+                masterTel = #{record.mastertel,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sendtypeid != null">
+                sendTypeID = #{record.sendtypeid,jdbcType=INTEGER},
+            </if>
+            <if test="record.sendtime != null">
+                sendTime = #{record.sendtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.sendfee != null">
+                sendFee = #{record.sendfee,jdbcType=DECIMAL},
+            </if>
+            <if test="record.carfee != null">
+                carFee = #{record.carfee,jdbcType=DECIMAL},
+            </if>
+            <if test="record.carstatus != null">
+                carStatus = #{record.carstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="record.demo != null">
+                demo = #{record.demo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update transcar
+        set transID = #{record.transid,jdbcType=INTEGER},
+        carID = #{record.carid,jdbcType=INTEGER},
+        gcount = #{record.gcount,jdbcType=DECIMAL},
+        sendCity = #{record.sendcity,jdbcType=INTEGER},
+        receCity = #{record.rececity,jdbcType=INTEGER},
+        driver = #{record.driver,jdbcType=VARCHAR},
+        driverTel = #{record.drivertel,jdbcType=VARCHAR},
+        master = #{record.master,jdbcType=VARCHAR},
+        masterTel = #{record.mastertel,jdbcType=VARCHAR},
+        sendTypeID = #{record.sendtypeid,jdbcType=INTEGER},
+        sendTime = #{record.sendtime,jdbcType=TIMESTAMP},
+        sendFee = #{record.sendfee,jdbcType=DECIMAL},
+        carFee = #{record.carfee,jdbcType=DECIMAL},
+        carStatus = #{record.carstatus,jdbcType=VARCHAR},
+        demo = #{record.demo,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.springmvc.bean.Transcar">
+        update transcar
+        <set>
+            <if test="carid != null">
+                carID = #{carid,jdbcType=INTEGER},
+            </if>
+            <if test="gcount != null">
+                gcount = #{gcount,jdbcType=DECIMAL},
+            </if>
+            <if test="sendcity != null">
+                sendCity = #{sendcity,jdbcType=INTEGER},
+            </if>
+            <if test="rececity != null">
+                receCity = #{rececity,jdbcType=INTEGER},
+            </if>
+            <if test="driver != null">
+                driver = #{driver,jdbcType=VARCHAR},
+            </if>
+            <if test="drivertel != null">
+                driverTel = #{drivertel,jdbcType=VARCHAR},
+            </if>
+            <if test="master != null">
+                master = #{master,jdbcType=VARCHAR},
+            </if>
+            <if test="mastertel != null">
+                masterTel = #{mastertel,jdbcType=VARCHAR},
+            </if>
+            <if test="sendtypeid != null">
+                sendTypeID = #{sendtypeid,jdbcType=INTEGER},
+            </if>
+            <if test="sendtime != null">
+                sendTime = #{sendtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sendfee != null">
+                sendFee = #{sendfee,jdbcType=DECIMAL},
+            </if>
+            <if test="carfee != null">
+                carFee = #{carfee,jdbcType=DECIMAL},
+            </if>
+            <if test="carstatus != null">
+                carStatus = #{carstatus,jdbcType=VARCHAR},
+            </if>
+            <if test="demo != null">
+                demo = #{demo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where transID = #{transid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.springmvc.bean.Transcar">
+    update transcar
+    set carID = #{carid,jdbcType=INTEGER},
+      gcount = #{gcount,jdbcType=DECIMAL},
+      sendCity = #{sendcity,jdbcType=INTEGER},
+      receCity = #{rececity,jdbcType=INTEGER},
+      driver = #{driver,jdbcType=VARCHAR},
+      driverTel = #{drivertel,jdbcType=VARCHAR},
+      master = #{master,jdbcType=VARCHAR},
+      masterTel = #{mastertel,jdbcType=VARCHAR},
+      sendTypeID = #{sendtypeid,jdbcType=INTEGER},
+      sendTime = #{sendtime,jdbcType=TIMESTAMP},
+      sendFee = #{sendfee,jdbcType=DECIMAL},
+      carFee = #{carfee,jdbcType=DECIMAL},
+      carStatus = #{carstatus,jdbcType=VARCHAR},
+      demo = #{demo,jdbcType=VARCHAR}
+    where transID = #{transid,jdbcType=INTEGER}
+  </update>
+</mapper>

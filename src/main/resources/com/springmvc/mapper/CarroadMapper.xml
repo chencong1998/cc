@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springmvc.mapper.CarroadMapper">
+  <resultMap id="BaseResultMap" type="com.springmvc.bean.Carroad">
+    <id column="roadID" jdbcType="INTEGER" property="roadid" />
+    <result column="transID" jdbcType="INTEGER" property="transid" />
+    <result column="startCity" jdbcType="INTEGER" property="startcity" />
+    <result column="startTime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="endCity" jdbcType="INTEGER" property="endcity" />
+    <result column="endTime" jdbcType="TIMESTAMP" property="endtime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    roadID, transID, startCity, startTime, endCity, endTime
+  </sql>
+  <select id="selectByExample" parameterType="com.springmvc.bean.CarroadExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from carroad
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from carroad
+    where roadID = #{roadid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from carroad
+    where roadID = #{roadid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.springmvc.bean.CarroadExample">
+    delete from carroad
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.springmvc.bean.Carroad">
+    insert into carroad (roadID, transID, startCity, 
+      startTime, endCity, endTime
+      )
+    values (#{roadid,jdbcType=INTEGER}, #{transid,jdbcType=INTEGER}, #{startcity,jdbcType=INTEGER}, 
+      #{starttime,jdbcType=TIMESTAMP}, #{endcity,jdbcType=INTEGER}, #{endtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.springmvc.bean.Carroad">
+    insert into carroad
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roadid != null">
+        roadID,
+      </if>
+      <if test="transid != null">
+        transID,
+      </if>
+      <if test="startcity != null">
+        startCity,
+      </if>
+      <if test="starttime != null">
+        startTime,
+      </if>
+      <if test="endcity != null">
+        endCity,
+      </if>
+      <if test="endtime != null">
+        endTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roadid != null">
+        #{roadid,jdbcType=INTEGER},
+      </if>
+      <if test="transid != null">
+        #{transid,jdbcType=INTEGER},
+      </if>
+      <if test="startcity != null">
+        #{startcity,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endcity != null">
+        #{endcity,jdbcType=INTEGER},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.springmvc.bean.CarroadExample" resultType="java.lang.Long">
+    select count(*) from carroad
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update carroad
+    <set>
+      <if test="record.roadid != null">
+        roadID = #{record.roadid,jdbcType=INTEGER},
+      </if>
+      <if test="record.transid != null">
+        transID = #{record.transid,jdbcType=INTEGER},
+      </if>
+      <if test="record.startcity != null">
+        startCity = #{record.startcity,jdbcType=INTEGER},
+      </if>
+      <if test="record.starttime != null">
+        startTime = #{record.starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endcity != null">
+        endCity = #{record.endcity,jdbcType=INTEGER},
+      </if>
+      <if test="record.endtime != null">
+        endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update carroad
+    set roadID = #{record.roadid,jdbcType=INTEGER},
+      transID = #{record.transid,jdbcType=INTEGER},
+      startCity = #{record.startcity,jdbcType=INTEGER},
+      startTime = #{record.starttime,jdbcType=TIMESTAMP},
+      endCity = #{record.endcity,jdbcType=INTEGER},
+      endTime = #{record.endtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.springmvc.bean.Carroad">
+    update carroad
+    <set>
+      <if test="transid != null">
+        transID = #{transid,jdbcType=INTEGER},
+      </if>
+      <if test="startcity != null">
+        startCity = #{startcity,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null">
+        startTime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endcity != null">
+        endCity = #{endcity,jdbcType=INTEGER},
+      </if>
+      <if test="endtime != null">
+        endTime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where roadID = #{roadid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.springmvc.bean.Carroad">
+    update carroad
+    set transID = #{transid,jdbcType=INTEGER},
+      startCity = #{startcity,jdbcType=INTEGER},
+      startTime = #{starttime,jdbcType=TIMESTAMP},
+      endCity = #{endcity,jdbcType=INTEGER},
+      endTime = #{endtime,jdbcType=TIMESTAMP}
+    where roadID = #{roadid,jdbcType=INTEGER}
+  </update>
+</mapper>

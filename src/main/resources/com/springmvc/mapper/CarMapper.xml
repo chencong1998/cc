@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springmvc.mapper.CarMapper">
+    <resultMap id="BaseResultMap" type="com.springmvc.bean.Car">
+        <id column="carID" jdbcType="INTEGER" property="carid"/>
+        <result column="cardNo" jdbcType="VARCHAR" property="cardno"/>
+        <result column="carName" jdbcType="VARCHAR" property="carname"/>
+        <result column="model" jdbcType="VARCHAR" property="model"/>
+        <result column="customerID" jdbcType="INTEGER" property="customerid"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="contact" jdbcType="VARCHAR" property="contact"/>
+        <result column="qq" jdbcType="VARCHAR" property="qq"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="areaID" jdbcType="INTEGER" property="areaid"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="demo" jdbcType="VARCHAR" property="demo"/>
+    </resultMap>
+    <resultMap id="WithOtherResultMap" type="com.springmvc.bean.Car">
+        <id column="carID" jdbcType="INTEGER" property="carid"/>
+        <result column="cardNo" jdbcType="VARCHAR" property="cardno"/>
+        <result column="carName" jdbcType="VARCHAR" property="carname"/>
+        <result column="model" jdbcType="VARCHAR" property="model"/>
+        <result column="customerID" jdbcType="INTEGER" property="customerid"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="contact" jdbcType="VARCHAR" property="contact"/>
+        <result column="qq" jdbcType="VARCHAR" property="qq"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="areaID" jdbcType="INTEGER" property="areaid"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="demo" jdbcType="VARCHAR" property="demo"/>
+        <association property="customer" javaType="com.springmvc.bean.Customer">
+            <id column="customerID" property="customerid"></id>
+            <result column="customerName" property="customername"></result>
+        </association>
+        <association property="area" javaType="com.springmvc.bean.Area">
+            <id column="areaID" property="areaid"></id>
+            <result column="areaName" property="areaname"></result>
+        </association>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    carID, cardNo, carName, model, customerID, mobile, contact, qq, email, areaID, status, 
+    demo
+  </sql>
+    <sql id="WithOther_Column_List">
+   carID, cardNo, carName, model, c.customerID, mobile, contact,
+   qq, email, c.areaID, status, demo,customerName,areaName
+    </sql>
+    <select id="selectByExampleWithother" resultMap="WithOtherResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="WithOther_Column_List"/>
+        from car c
+        LEFT JOIN area a on a.areaID=c.areaID
+        LEFT JOIN customer c1 on c.customerID=c1.customerID
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByExample" parameterType="com.springmvc.bean.CarExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from car
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from car
+        where carID = #{carid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from car
+    where carID = #{carid,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.springmvc.bean.CarExample">
+        delete from car
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.springmvc.bean.Car">
+    insert into car (carID, cardNo, carName, 
+      model, customerID, mobile, 
+      contact, qq, email, 
+      areaID, status, demo
+      )
+    values (#{carid,jdbcType=INTEGER}, #{cardno,jdbcType=VARCHAR}, #{carname,jdbcType=VARCHAR}, 
+      #{model,jdbcType=VARCHAR}, #{customerid,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, 
+      #{contact,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{areaid,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{demo,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.springmvc.bean.Car" useGeneratedKeys="true" keyProperty="carid">
+        insert into car
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="carid != null">
+                carID,
+            </if>
+            <if test="cardno != null">
+                cardNo,
+            </if>
+            <if test="carname != null">
+                carName,
+            </if>
+            <if test="model != null">
+                model,
+            </if>
+            <if test="customerid != null">
+                customerID,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="contact != null">
+                contact,
+            </if>
+            <if test="qq != null">
+                qq,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="areaid != null">
+                areaID,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="demo != null">
+                demo,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="carid != null">
+                #{carid,jdbcType=INTEGER},
+            </if>
+            <if test="cardno != null">
+                #{cardno,jdbcType=VARCHAR},
+            </if>
+            <if test="carname != null">
+                #{carname,jdbcType=VARCHAR},
+            </if>
+            <if test="model != null">
+                #{model,jdbcType=VARCHAR},
+            </if>
+            <if test="customerid != null">
+                #{customerid,jdbcType=INTEGER},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="contact != null">
+                #{contact,jdbcType=VARCHAR},
+            </if>
+            <if test="qq != null">
+                #{qq,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="areaid != null">
+                #{areaid,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="demo != null">
+                #{demo,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.springmvc.bean.CarExample" resultType="java.lang.Long">
+        select count(*) from car
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update car
+        <set>
+            <if test="record.carid != null">
+                carID = #{record.carid,jdbcType=INTEGER},
+            </if>
+            <if test="record.cardno != null">
+                cardNo = #{record.cardno,jdbcType=VARCHAR},
+            </if>
+            <if test="record.carname != null">
+                carName = #{record.carname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.model != null">
+                model = #{record.model,jdbcType=VARCHAR},
+            </if>
+            <if test="record.customerid != null">
+                customerID = #{record.customerid,jdbcType=INTEGER},
+            </if>
+            <if test="record.mobile != null">
+                mobile = #{record.mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="record.contact != null">
+                contact = #{record.contact,jdbcType=VARCHAR},
+            </if>
+            <if test="record.qq != null">
+                qq = #{record.qq,jdbcType=VARCHAR},
+            </if>
+            <if test="record.email != null">
+                email = #{record.email,jdbcType=VARCHAR},
+            </if>
+            <if test="record.areaid != null">
+                areaID = #{record.areaid,jdbcType=INTEGER},
+            </if>
+            <if test="record.status != null">
+                status = #{record.status,jdbcType=VARCHAR},
+            </if>
+            <if test="record.demo != null">
+                demo = #{record.demo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update car
+        set carID = #{record.carid,jdbcType=INTEGER},
+        cardNo = #{record.cardno,jdbcType=VARCHAR},
+        carName = #{record.carname,jdbcType=VARCHAR},
+        model = #{record.model,jdbcType=VARCHAR},
+        customerID = #{record.customerid,jdbcType=INTEGER},
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+        contact = #{record.contact,jdbcType=VARCHAR},
+        qq = #{record.qq,jdbcType=VARCHAR},
+        email = #{record.email,jdbcType=VARCHAR},
+        areaID = #{record.areaid,jdbcType=INTEGER},
+        status = #{record.status,jdbcType=VARCHAR},
+        demo = #{record.demo,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.springmvc.bean.Car">
+        update car
+        <set>
+            <if test="cardno != null">
+                cardNo = #{cardno,jdbcType=VARCHAR},
+            </if>
+            <if test="carname != null">
+                carName = #{carname,jdbcType=VARCHAR},
+            </if>
+            <if test="model != null">
+                model = #{model,jdbcType=VARCHAR},
+            </if>
+            <if test="customerid != null">
+                customerID = #{customerid,jdbcType=INTEGER},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="contact != null">
+                contact = #{contact,jdbcType=VARCHAR},
+            </if>
+            <if test="qq != null">
+                qq = #{qq,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="areaid != null">
+                areaID = #{areaid,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="demo != null">
+                demo = #{demo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where carID = #{carid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.springmvc.bean.Car">
+    update car
+    set cardNo = #{cardno,jdbcType=VARCHAR},
+      carName = #{carname,jdbcType=VARCHAR},
+      model = #{model,jdbcType=VARCHAR},
+      customerID = #{customerid,jdbcType=INTEGER},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      contact = #{contact,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      areaID = #{areaid,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
+      demo = #{demo,jdbcType=VARCHAR}
+    where carID = #{carid,jdbcType=INTEGER}
+  </update>
+</mapper>

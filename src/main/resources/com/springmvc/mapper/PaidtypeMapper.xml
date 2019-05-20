@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springmvc.mapper.PaidtypeMapper">
+  <resultMap id="BaseResultMap" type="com.springmvc.bean.Paidtype">
+    <id column="paidID" jdbcType="INTEGER" property="paidid" />
+    <result column="paidName" jdbcType="VARCHAR" property="paidname" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    paidID, paidName
+  </sql>
+  <select id="selectByExample" parameterType="com.springmvc.bean.PaidtypeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from paidtype
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from paidtype
+    where paidID = #{paidid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from paidtype
+    where paidID = #{paidid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.springmvc.bean.PaidtypeExample">
+    delete from paidtype
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.springmvc.bean.Paidtype">
+    insert into paidtype (paidID, paidName)
+    values (#{paidid,jdbcType=INTEGER}, #{paidname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.springmvc.bean.Paidtype">
+    insert into paidtype
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="paidid != null">
+        paidID,
+      </if>
+      <if test="paidname != null">
+        paidName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="paidid != null">
+        #{paidid,jdbcType=INTEGER},
+      </if>
+      <if test="paidname != null">
+        #{paidname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.springmvc.bean.PaidtypeExample" resultType="java.lang.Long">
+    select count(*) from paidtype
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update paidtype
+    <set>
+      <if test="record.paidid != null">
+        paidID = #{record.paidid,jdbcType=INTEGER},
+      </if>
+      <if test="record.paidname != null">
+        paidName = #{record.paidname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update paidtype
+    set paidID = #{record.paidid,jdbcType=INTEGER},
+      paidName = #{record.paidname,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.springmvc.bean.Paidtype">
+    update paidtype
+    <set>
+      <if test="paidname != null">
+        paidName = #{paidname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where paidID = #{paidid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.springmvc.bean.Paidtype">
+    update paidtype
+    set paidName = #{paidname,jdbcType=VARCHAR}
+    where paidID = #{paidid,jdbcType=INTEGER}
+  </update>
+</mapper>

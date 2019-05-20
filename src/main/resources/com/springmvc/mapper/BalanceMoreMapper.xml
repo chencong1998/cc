@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.superanni.han.blog.dao.BalanceMoreMapper" >
+  <resultMap id="BaseResultMap" type="cn.superanni.han.blog.pojo.BalanceMore" >
+    <id column="balanceID" property="balanceid" jdbcType="INTEGER" />
+    <result column="customerID" property="customerid" jdbcType="INTEGER" />
+    <result column="faceFee" property="facefee" jdbcType="DECIMAL" />
+    <result column="paidType" property="paidtype" jdbcType="VARCHAR" />
+    <result column="paidTime" property="paidtime" jdbcType="TIMESTAMP" />
+    <result column="oprTime" property="oprtime" jdbcType="TIMESTAMP" />
+    <result column="userID" property="userid" jdbcType="INTEGER" />
+    <result column="isvalID" property="isvalid" jdbcType="VARCHAR" />
+    <result column="demo" property="demo" jdbcType="VARCHAR" />
+    <association property="customer" javaType="cn.superanni.han.blog.pojo.Customer">
+      <id property="customerid" column="customerid"/>
+      <result property="customername" column="customername"/>
+    </association>
+    <association property="user" javaType="cn.superanni.han.blog.pojo.Users">
+      <id property="id" column="id"/>
+      <result property="username" column="username"/>
+    </association>
+  </resultMap>
+
+  <select id="selectBalanceMoreDetailById" resultMap="BaseResultMap">
+    select b.*,c.customername,u.username from balance b,customer c,users u where b.customerid = c.customerid and b.userid=u.id
+    and b.customerid=#{customerid}
+    limit #{begin},#{end}
+  </select>
+
+  <select id="selectBalanceMore" resultMap="BaseResultMap">
+    select b.*,c.customername,u.username from balance b,customer c,users u where b.customerid = c.customerid and b.userid=u.id
+  </select>
+
+  <select id="selectBalanceMoreDetailTotalById" parameterType="int" resultType="int">
+    select count(*) from balance b,customer c,users u where b.customerid = c.customerid and b.userid=u.id
+    and b.customerid = #{customerid}
+  </select>
+
+  <update id="updateBalanceStatus">
+    update balance set isvalid=#{status} where balanceid=#{balanceid}
+  </update>
+
+  <select id="selectBalanceMoreByCondition" resultMap="BaseResultMap">
+    select b.*,c.customername,u.username from balance b,customer c,users u where b.customerid = c.customerid and b.userid=u.id
+    <if test="customername!='' and customername!=null">
+      and c.customername=#{customername}
+    </if>
+    <if test="paidtype!='' and paidtype!=null">
+      and b.paidtype = #{paidtype}
+    </if>
+    <if test="isvalid!='' and isvalid!=null">
+      and b.isvalid=#{isvalid}
+    </if>
+    <if test="paidtimebefore!='' and paidtimeend!=''">
+      and b.paidtime between #{paidtimebefore} and #{paidtimeend}
+    </if>
+    <if test="paidtimebefore!='' and paidtimeend==''">
+      and b.paidtime > #{paidtimebefore}
+    </if>
+    <if test="paidtimebefore=='' and paidtimeend!=''">
+      and  #{paidtimebefore} > b.paidtime
+    </if>
+  </select>
+</mapper>

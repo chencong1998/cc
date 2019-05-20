@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+ <!-- 配置扫描 -->
+ <context:component-scan base-package="com.springmvc">
+   <!-- 排除注解 -->
+   <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+ </context:component-scan>
+ <!-- 引入属性文件
+ <bean  id="propertyConfigure"  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+   <property name="locations">
+      <list>
+        <value>classpath:jdbc.properties</value>
+      </list>
+   </property>
+ </bean>
+  -->
+ <!-- 加载属性文件 -->
+   <context:property-placeholder location="classpath:jdbc.properties"/>
+ <!-- 配置数据源 -->
+ <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+     <property name="driverClass" value="${mysqlDriver}"></property>
+     <property name="jdbcUrl" value="${mysqlUrl}"></property>
+     <property name="user"  value="${mysqlUser}"></property>
+     <property name="password" value="${mysqlPwd}"></property>
+
+     <property name="initialPoolSize" value="50"></property>
+     <property name="maxPoolSize"  value="100"></property>
+ </bean>
+<!--
+ <bean id="dataSource"  class="org.apache.commons.dbcp.BasicDataSource">
+     <property name="driverClassName" value="${mysqlDriver}"></property>
+     <property name="url" value="${mysqlUrl}"></property>
+     <property name="username"  value="${mysqlUser}"></property>
+     <property name="password" value="${mysqlPwd}"></property>
+     <property name="initialSize" value="50"></property>
+     <property name="maxActive"  value="100"></property>
+ </bean>
+  -->
+ <!-- 配置SqlSessionFactory -->
+ <bean id="sqlSessionFactory"  class="org.mybatis.spring.SqlSessionFactoryBean"  >
+    <property name="dataSource" ref="dataSource"></property>
+    <!-- 若把mybatis-config.xml文件配置进来，则配置如下 -->
+   <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+    <!-- 若省略配置mybatis-config.xml文件，则配置如下：
+    <property name="mapperLocations"  value="classpath:/com/springmvc/mapper/*.xml"></property> -->
+ </bean>
+
+
+ <!-- 事务管理 -->
+ <bean id="transactionManager"   class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource"  ref="dataSource"></property>
+ </bean>
+
+  <tx:advice id="txAdvice"  transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*"     read-only="true" />
+            <tx:method name="find*"    read-only="true" />
+            <tx:method name="*"        propagation="REQUIRED" />
+        </tx:attributes>
+  </tx:advice>
+  <aop:config>
+      <aop:pointcut expression="execution(* com.springmvc.service.*.*(..))" id="pointCut"/>
+      <aop:advisor  advice-ref="txAdvice"    pointcut-ref="pointCut"/>
+  </aop:config>
+
+   <!-- 扫描映射接口 -->
+ <bean  class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+       <property name="basePackage"  value="com.springmvc.mapper"></property>
+
+ </bean>
+
+<!--
+  等价于以下的配置：
+  <mybatis-spring:scan base-package="com.springmvc.mapper"/>
+  -->
+</beans>
